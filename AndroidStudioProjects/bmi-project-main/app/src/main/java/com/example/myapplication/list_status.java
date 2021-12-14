@@ -9,17 +9,19 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 
 public class list_status extends AppCompatActivity {
             ListView status_list;
-            TextView rate_status_tv;
+            TextView rate_status_tv,logout;
             status sta;
              int age;
              int a,b;
              double bmi_val;
 
-    static double bmi(int  len,int wei,int age){
+  /* static double bmi(int  len,int wei,int age){
 
         double bmi_calculate ;
         int a,b;
@@ -27,7 +29,7 @@ public class list_status extends AppCompatActivity {
         b=a/100;
         bmi_calculate=(wei/b)*age;
         return bmi_calculate;
-    }
+    }*/
     ArrayList<status> s = new ArrayList<status>();
 
           final int REQ_COD_NEW_RECORD =1;
@@ -42,12 +44,20 @@ public class list_status extends AppCompatActivity {
         rate_status_tv = findViewById(R.id.statusRate_tv);
         viewFood_bt=findViewById(R.id.viewFood_bt);
         add_food_bt=findViewById(R.id.status__list_add_food_bt);
-
+        logout=findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getBaseContext(),MainActivity2.class));
+                finish();
+            }
+        });
         Intent intent_age = getIntent();
        age = intent_age.getIntExtra("SEND_VALUE_NAME",0);
        Intent bmi_v=getIntent();
         bmi_val=   bmi_v.getDoubleExtra("bmi",1);
-       rate_status_tv.setText(bmi_val+"");
+   //    rate_status_tv.setText(bmi_val+"");
 
          sAdapter  = new statusAdapter(this,R.layout.custom_status_layout,s);
         // bmi_c= sta.bmi(sta.getLength(),sta.getWeight(),age);
