@@ -8,6 +8,8 @@ public class foodInfo
     int cal;
     String img;
 
+    public foodInfo() {
+    }
 
     public foodInfo(String foodName, String foodCatagory, int cal, String img) {
         this.foodName = foodName;

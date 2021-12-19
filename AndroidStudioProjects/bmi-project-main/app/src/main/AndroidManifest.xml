@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication" >
         <activity
-            android:name=".editFood"
+            android:name=".aeditFood"
             android:exported="false" />
         <activity
             android:name=".addFood"

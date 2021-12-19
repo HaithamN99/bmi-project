@@ -2,7 +2,7 @@ package com.example.myapplication;
 
 import java.io.Serializable;
 
-public class status  implements Serializable {
+public class Status {
 
 
     private String Date;
@@ -11,8 +11,10 @@ public class status  implements Serializable {
     private  int length;
 
 
+    public Status() {
+    }
 
-    public status(String date, int weight, String statusRate, int length) {
+    public Status(String date, int weight, String statusRate, int length) {
         Date = date;
         this.weight = weight;
         this.statusRate = statusRate;

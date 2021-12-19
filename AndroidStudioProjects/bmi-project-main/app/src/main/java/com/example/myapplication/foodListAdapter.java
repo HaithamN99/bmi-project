@@ -13,6 +13,8 @@ import java.util.List;
 
 public class foodListAdapter extends RecyclerView.Adapter<foodListAdapter.ViewHilder> {
 
+
+
     public static class ViewHilder extends RecyclerView.ViewHolder{
 
 
@@ -55,5 +57,9 @@ public class foodListAdapter extends RecyclerView.Adapter<foodListAdapter.ViewHi
     @Override
     public int getItemCount() {
         return f.size();
+    }
+    public void addItem(foodInfo food) {
+        this.f.add(food);
+
     }
 }

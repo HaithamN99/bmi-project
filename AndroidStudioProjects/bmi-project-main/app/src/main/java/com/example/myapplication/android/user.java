@@ -1,27 +1,51 @@
 package com.example.myapplication.android;
 
 import com.example.myapplication.foodInfo;
-import com.example.myapplication.status;
+import com.example.myapplication.Status;
 
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.util.List;
 
-public class user {
+public class user implements Serializable {
 
-
+    String name;
     String username;
     String pass_user;
-    ArrayList<status> s;
+    List<Status> s;
     String Birth_date;
     int age;
-    ArrayList<foodInfo>f;
+    double bmi;
+    List<foodInfo> f;
 
-    public user(String username, String pass_user, ArrayList<status> s, String birth_date, int age, ArrayList<foodInfo> f) {
+    public user() {
+    }
+
+
+    public user(String name, String username, String pass_user, List<Status> s, String birth_date, int age, double bmi, List<foodInfo> f) {
+        this.name = name;
         this.username = username;
         this.pass_user = pass_user;
         this.s = s;
         Birth_date = birth_date;
         this.age = age;
+        this.bmi = bmi;
         this.f = f;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getBmi() {
+        return bmi;
+    }
+
+    public void setBmi(double bmi) {
+        this.bmi = bmi;
     }
 
     public String getUsername() {
@@ -40,11 +64,11 @@ public class user {
         this.pass_user = pass_user;
     }
 
-    public ArrayList<status> getS() {
+    public List<Status> getS() {
         return s;
     }
 
-    public void setS(ArrayList<status> s) {
+    public void setS(List<Status> s) {
         this.s = s;
     }
 
@@ -64,11 +88,21 @@ public class user {
         this.age = age;
     }
 
-    public ArrayList<foodInfo> getF() {
+    public List<foodInfo> getF() {
         return f;
     }
 
-    public void setF(ArrayList<foodInfo> f) {
+    public void setF(List<foodInfo> f) {
         this.f = f;
+    }
+
+    public void addStatus(Status s) {
+        if (getS() != null)
+            this.s.add(s);
+    }
+
+    public void addFoodInfo(foodInfo info) {
+        if (getF() != null)
+            f.add(info);
     }
 }
