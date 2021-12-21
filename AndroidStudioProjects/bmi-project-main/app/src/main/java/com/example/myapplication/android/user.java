@@ -4,10 +4,11 @@ import com.example.myapplication.foodInfo;
 import com.example.myapplication.Status;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class user implements Serializable {
-
+    String id;
     String name;
     String username;
     String pass_user;
@@ -21,7 +22,8 @@ public class user implements Serializable {
     }
 
 
-    public user(String name, String username, String pass_user, List<Status> s, String birth_date, int age, double bmi, List<foodInfo> f) {
+    public user(String id, String name, String username, String pass_user, List<Status> s, String birth_date, int age, double bmi, List<foodInfo> f) {
+        this.id = id;
         this.name = name;
         this.username = username;
         this.pass_user = pass_user;
@@ -30,6 +32,14 @@ public class user implements Serializable {
         this.age = age;
         this.bmi = bmi;
         this.f = f;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -97,12 +107,28 @@ public class user implements Serializable {
     }
 
     public void addStatus(Status s) {
-        if (getS() != null)
-            this.s.add(s);
+        if (getS() == null)
+            setS(new ArrayList<>());
+        this.s.add(s);
+
     }
 
     public void addFoodInfo(foodInfo info) {
-        if (getF() != null)
-            f.add(info);
+        if (getF() == null)
+            setF(new ArrayList<>());
+        this.f.add(info);
+    }
+
+    public void editFood(int index, foodInfo info) {
+        if (getF() == null)
+            setF(new ArrayList<>());
+        this.f.remove(index);
+        this.f.add(index, info);
+    }
+
+    public void deleteFood(int index) {
+        if (getF() == null)
+            setF(new ArrayList<>());
+        this.f.remove(index);
     }
 }

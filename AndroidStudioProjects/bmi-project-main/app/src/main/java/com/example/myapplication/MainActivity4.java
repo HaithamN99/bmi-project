@@ -18,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.android.saver;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -47,7 +46,7 @@ public class MainActivity4 extends AppCompatActivity {
     Button b2_cminc, b1_cmdec;
     Button save_data;
     TextView tv_kg, tv_cm;
-    int kg=60, cm=100, age;
+    int kg = 60, cm = 100, age;
     DatePickerDialog datepicker;
     EditText eText;
 
@@ -117,46 +116,21 @@ public class MainActivity4 extends AppCompatActivity {
                 tv_cm.setText(cm + "");
             }
         });
-        save_data.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              int a=age;
-              int k=kg;
-              int c=cm;
-                saver.User.setAge(a);
-                saver.User.setBmi(bmi_calc(k, c, a));
-//                List<foodInfo> fI = new ArrayList<>();
-//                fI.add(new foodInfo("test1", "test", 1, "image"));
-//                fI.add(new foodInfo("test2", "test", 2, "image"));
-//                fI.add(new foodInfo("test3", "test", 3, "image"));
-//                fI.add(new foodInfo("test4", "test", 4, "image"));
-//                saver.User.setF(fI);
-//
-//                List<Status> st = new ArrayList<>();
-//                st.add(new Status("1205/21/20165", 1, "5.4", 15));
-//                st.add(new Status("1205/21/20165", 2, "5.4", 15));
-//                st.add(new Status("1205/21/20165", 3, "5.4", 15));
-//                st.add(new Status("1205/21/20165", 4, "5.4", 15));
-//                saver.User.setS(st);
-                f.collection("user").document(saver.Id).set(saver.User).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-
-                            Toast.makeText(getBaseContext(), "The data is saved", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getBaseContext(), list_status.class);
-                            startActivity(intent);
-                        }
+        save_data.setOnClickListener(v -> {
+            int k = kg;
+            int c = cm;
+            saver.User.setAge(age);
+            saver.User.setBmi(bmi_calc(k, c, age));
+            f.collection("user").document(saver.User.getId()).set(saver.User).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(getBaseContext(), "The data is saved", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getBaseContext(), list_status.class);
+                        startActivity(intent);
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getBaseContext(), "no Internet connection", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-
-            }
+                }
+            }).addOnFailureListener(e -> Toast.makeText(getBaseContext(), "no Internet connection", Toast.LENGTH_SHORT).show());
         });
     }
 }

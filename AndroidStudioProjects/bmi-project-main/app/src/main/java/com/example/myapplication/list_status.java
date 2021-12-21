@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.android.saver;
@@ -16,9 +15,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+
 public class list_status extends AppCompatActivity {
     ListView status_list;
-    TextView rate_status_tv, logout;
+    TextView rate_status_tv, logout, tv_hi;
     Status sta;
     int age;
     int a, b;
@@ -49,25 +50,25 @@ public class list_status extends AppCompatActivity {
         viewFood_bt = findViewById(R.id.viewFood_bt);
         add_food_bt = findViewById(R.id.status__list_add_food_bt);
         logout = findViewById(R.id.logout);
+        tv_hi = findViewById(R.id.tv_hi);
         firestore = FirebaseFirestore.getInstance();
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getBaseContext(), MainActivity2.class));
-                finish();
-            }
+        logout.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            saver.User = new user();
+            startActivity(new Intent(getBaseContext(), MainActivity2.class));
+            finish();
         });
 
 
         sAdapter = new statusAdapter(this, R.layout.custom_status_layout);
-        //    rate_status_tv.setText(bmi_val+"");
         firestore.collection("user").whereEqualTo("username", saver.User.getUsername()).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 QuerySnapshot querySnapshot = task.getResult();
                 if (querySnapshot != null) {
                     saver.User = querySnapshot.toObjects(user.class).get(0);
                     sAdapter.setS(saver.User.getS());
+                    tv_hi.setText("Hi, " + saver.User.getName());
+                    rate_status_tv.setText(saver.User.getBmi() + "");
                 }
             }
         });
@@ -87,9 +88,7 @@ public class list_status extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), NewRecodr.class);
-                int age_newRecord = age;
-                intent.putExtra("age", age_newRecord);
-                startActivityForResult(intent, REQ_COD_NEW_RECORD);
+                startActivity(intent);
             }
         });
         add_food_bt.setOnClickListener(v -> {
@@ -99,16 +98,16 @@ public class list_status extends AppCompatActivity {
 
     }
 
+
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQ_COD_NEW_RECORD && resultCode == RESULT_OK) {
-
-            Status s1 = (Status) data.getSerializableExtra(NewRecodr.newRecord);
-
-            sAdapter.addItem(s1);
-            sAdapter.notifyDataSetChanged();
-
+    protected void onStart() {
+        super.onStart();
+        sAdapter.setS(saver.User.getS() != null ? saver.User.getS() : new ArrayList<>());
+        if (saver.User.getName() != null) {
+            tv_hi.setText("Hi, " + saver.User.getName());
+            rate_status_tv.setText(saver.User.getBmi() + "");
         }
     }
+
 }

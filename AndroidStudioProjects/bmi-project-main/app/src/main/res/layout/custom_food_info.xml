@@ -37,7 +37,7 @@
         android:textStyle="bold" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/but_edit"
         android:layout_width="75dp"
         android:layout_height="35dp"
         android:layout_rowWeight="1"
@@ -81,7 +81,7 @@
         android:textStyle="bold" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/but_delete"
         android:layout_width="25sp"
         android:layout_height="25sp"
         android:layout_rowSpan="1"

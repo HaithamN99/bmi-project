@@ -10,11 +10,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.android.saver;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -79,13 +77,9 @@ public class MainActivity3 extends AppCompatActivity {
                     saver.User.setName(fullname);
                     saver.User.setPass_user(password);
                     saver.User.setUsername(email);
-                    fstore.collection("user").add(saver.User).addOnSuccessListener(documentReference -> saver.Id = documentReference.getId()).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.e("Regester", "onFailure: ", e);
-                        }
-                    });
-
+                    fstore.collection("user").add(saver.User)
+                            .addOnSuccessListener(documentReference -> saver.User.setId(documentReference.getId()))
+                            .addOnFailureListener(e -> Log.e("Regester", "onFailure: ", e));
                     startActivity(new Intent(this, MainActivity4.class));
                     finish();
                 } else {

@@ -7,27 +7,27 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Thread background = new Thread() {
-            public void run() {
-                try {
-                    // Thread will sleep for 5 seconds
-                    sleep(2*1000);
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    Thread background = new Thread() {
+        public void run() {
+            try {
+                // Thread will sleep for 5 seconds
+                sleep(2*1000);
 
-                    // After 2 seconds redirect to another intent
-                    Intent i=new Intent(getBaseContext(),MainActivity2.class);
-                    startActivity(i);
+                // After 2 seconds redirect to another intent
+                Intent i=new Intent(getBaseContext(),MainActivity2.class);
+                startActivity(i);
 
-                    //Remove activity
-                    finish();
-                } catch (Exception e) {
-                }
+                //Remove activity
+                finish();
+            } catch (Exception e) {
             }
-        };
-        // start thread
-        background.start();
-    }
+        }
+    };
+    // start thread
+    background.start();
+}
 }

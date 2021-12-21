@@ -8,7 +8,7 @@
     tools:context=".list_status">
 
     <TextView
-        android:id="@+id/textView22"
+        android:id="@+id/tv_hi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -34,7 +34,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.073"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView22" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_hi" />
 
     <TextView
         android:id="@+id/statusRate_tv"

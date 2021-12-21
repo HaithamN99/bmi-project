@@ -72,7 +72,6 @@ public class MainActivity2 extends AppCompatActivity {
                     Toast.makeText(MainActivity2.this, "Login Successfully", Toast.LENGTH_SHORT).show();
                     saver.User = new user();
                     saver.User.setUsername(em);
-                    saver.Id=FirebaseAuth.getInstance().getUid();
                     startActivity(new Intent(getBaseContext(), list_status.class));
                 } else {
 

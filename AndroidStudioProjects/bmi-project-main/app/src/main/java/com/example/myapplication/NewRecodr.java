@@ -1,6 +1,5 @@
 package com.example.myapplication;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -9,13 +8,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.android.saver;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -25,12 +21,9 @@ import java.util.Locale;
 
 public class NewRecodr extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
-    static double bmi(int kgw, int m, int age) {
-        double a, b, c;
-        a = m / 100;
-        b = a * a;
-        c = (kgw / m) * age;
-        return c;
+    public double bmi(int kg, int cm, int age) {
+
+        return (kg / Math.pow((cm / 100), 2)) * age;
     }
 
     private FirebaseFirestore firestore;
@@ -58,10 +51,6 @@ public class NewRecodr extends AppCompatActivity {
         date_text = findViewById(R.id.new_record_date_et);
         time_text = findViewById(R.id.new_record_time_et);
         date = date_text.getText().toString();
-
-        time = time_text.getText().toString();
-        Intent i = getIntent();
-        int age_p = i.getIntExtra("age", 15);
         kg_minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,32 +91,26 @@ public class NewRecodr extends AppCompatActivity {
             }
         });
 
-
         b.setOnClickListener(v -> {
-            DocumentReference state_ref =firestore.collection("user").document();
+            DocumentReference state_ref = firestore.collection("user").document(saver.User.getId());
             Status s = new Status(date_text.getText().toString(), kg, time_text.getText().toString(), cm);
-            double bmi_value = bmi(kg, cm, age_p);
-            double bmi_oldValue = bmi(saver.User.getS().get(saver.User.getS().size() - 1).getWeight(),
-                    saver.User.getS().get(saver.User.getS().size() - 1).getLength(),
-                    saver.User.getAge());
+            double bmi_value = bmi(kg, cm, saver.User.getAge());
+            double bmi_oldValue = 0;
+            if (saver.User.getS() != null) {
+                bmi_oldValue = saver.User.getBmi();
+            }
             saver.User.setBmi(bmi_value - bmi_oldValue);
             saver.User.addStatus(s);
 
+            state_ref.set(saver.User).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
 
-            state_ref.set(saver.User).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()){
+                    Toast.makeText(NewRecodr.this, "created new record", Toast.LENGTH_SHORT).show();
 
-                        Toast.makeText(NewRecodr.this, "created new record", Toast.LENGTH_SHORT).show();
+                } else {
 
-                    }
-                    else{
-
-                        Toast.makeText(NewRecodr.this, "faild to save", Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(NewRecodr.this, "faild to save", Toast.LENGTH_SHORT).show();
                 }
-
             });
             finish();
         });
