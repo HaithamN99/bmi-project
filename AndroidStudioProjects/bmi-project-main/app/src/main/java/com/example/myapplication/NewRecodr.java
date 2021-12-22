@@ -21,11 +21,23 @@ import java.util.Locale;
 
 public class NewRecodr extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public double bmi(int kg, int cm, int age) {
+   /* public double bmi(int kg, int cm, int age) {
+        if (age>=2 && age<=10)
+            return (kg / Math.pow((cm / 100), 2)) * 0.7;
 
-        return (kg / Math.pow((cm / 100), 2)) * age;
-    }
+        else
+        if (age>10 && age<=20)
+            return (kg / Math.pow((cm / 100), 2)) * 0.9;
 
+        else
+        if (age>=20)
+            return (kg / Math.pow((cm / 100), 2)) * 1;
+
+
+        return   (kg / Math.pow((cm / 100), 2)) * 1;
+
+    }*/
+    public  static double d;
     private FirebaseFirestore firestore;
     Button b;
     static final String newRecord = "newRecord";
@@ -91,16 +103,19 @@ public class NewRecodr extends AppCompatActivity {
             }
         });
 
+        
         b.setOnClickListener(v -> {
             DocumentReference state_ref = firestore.collection("user").document(saver.User.getId());
-            Status s = new Status(date_text.getText().toString(), kg, time_text.getText().toString(), cm);
-            double bmi_value = bmi(kg, cm, saver.User.getAge());
-            double bmi_oldValue = 0;
+            Status s = new Status(date_text.getText().toString(), kg, "normal", cm);
+            double bmi_value = MainActivity4.bmi_calc(kg, cm, saver.User.getAge());
+            double bmi_oldValue = saver.User.getBmi();
             if (saver.User.getS() != null) {
                 bmi_oldValue = saver.User.getBmi();
             }
-            saver.User.setBmi(bmi_value - bmi_oldValue);
+            d = bmi_oldValue - bmi_value ;
+            saver.User.setBmi(bmi_oldValue);
             saver.User.addStatus(s);
+
 
             state_ref.set(saver.User).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {

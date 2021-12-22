@@ -12,7 +12,7 @@
     android:useDefaultMargins="true">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/food_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_rowSpan="3"

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,6 +44,9 @@ public class foodListAdapter extends RecyclerView.Adapter<foodListAdapter.ViewHi
         holder.food_name.setText(foods.getFoodName());
         holder.food_catagory.setText(foods.getFoodCatagory());
         holder.cal_number.setText(foods.getCal() + "");
+
+       //holder.imv.setImageBitmap(BitmapFactory.decodeStream(is, null, options));
+
     }
 
     @Override
@@ -61,11 +65,12 @@ public class foodListAdapter extends RecyclerView.Adapter<foodListAdapter.ViewHi
 
 
         TextView food_name, food_catagory, cal_number;
+        ImageView imv ;
         private Button edit, delete;
 
         public ViewHilder(@NonNull View itemView) {
             super(itemView);
-
+            imv=(ImageView) itemView.findViewById(R.id.food_img) ;
             food_name = (TextView) itemView.findViewById(R.id.food_name);
             food_catagory = (TextView) itemView.findViewById(R.id.food_catagory);
             cal_number = (TextView) itemView.findViewById(R.id.cal_number);

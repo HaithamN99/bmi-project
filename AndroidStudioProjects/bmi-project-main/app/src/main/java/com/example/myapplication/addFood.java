@@ -67,7 +67,7 @@ public class addFood extends AppCompatActivity {
         food_img = (ImageView) findViewById(R.id.add_food_img);
         uploadImg = findViewById(R.id.addfood_upload);
         foodName = food_name.getText().toString();
-        int a = 0;
+        int a = Integer.parseInt(Food_cal.getText().toString());
 
         uploadImg.setOnClickListener(v -> {
             getPermission();

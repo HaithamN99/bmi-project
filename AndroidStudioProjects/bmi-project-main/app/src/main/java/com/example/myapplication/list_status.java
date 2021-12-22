@@ -1,12 +1,14 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.android.saver;
@@ -25,6 +27,19 @@ public class list_status extends AppCompatActivity {
     int a, b;
     double bmi_val;
     private FirebaseFirestore firestore;
+    final String LC="Little Change",SG="Still Good", GA="Go Ahead",BC ="Be Carful",SB = "So Bad";
+    public String userts(char sta){
+
+        if (sta =='U')
+            return "Underweight";
+        else if (sta =='H')
+            return "Healthy Weight";
+        else if (sta =='O')
+            return "Overweight";
+        else
+            return "Obesity";
+
+    }
 
     /* static double bmi(int  len,int wei,int age){
 
@@ -40,6 +55,7 @@ public class list_status extends AppCompatActivity {
     Button add_record_bt, add_food_bt, viewFood_bt;
     statusAdapter sAdapter;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +76,8 @@ public class list_status extends AppCompatActivity {
         });
 
 
+       char st= MainActivity4.userState(saver.User.getBmi());
+        saver.User.setState(userts(st));
         sAdapter = new statusAdapter(this, R.layout.custom_status_layout);
         firestore.collection("user").whereEqualTo("username", saver.User.getUsername()).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -68,7 +86,118 @@ public class list_status extends AppCompatActivity {
                     saver.User = querySnapshot.toObjects(user.class).get(0);
                     sAdapter.setS(saver.User.getS());
                     tv_hi.setText("Hi, " + saver.User.getName());
-                    rate_status_tv.setText(saver.User.getBmi() + "");
+                    double delta=NewRecodr.d;
+                    switch (st){
+                        case 'U':
+                            if (delta<-1)
+                                rate_status_tv.setText(SB);
+                            else
+                            if (-1<=delta && delta <-0.6)
+                                rate_status_tv.setText(SB);
+                            else
+                            if (-0.6<delta && delta <-0.3)
+                                rate_status_tv.setText(SB);
+                            else
+                            if (-0.3<=delta && delta <-0)
+                                rate_status_tv.setText(LC);
+                            else
+                            if (0<=delta && delta <0.3)
+                                rate_status_tv.setText(LC);
+                            else
+                            if (0.3<=delta && delta <-0.6)
+                                rate_status_tv.setText(SG);
+                            else
+                            if (0.6<=delta && delta <1)
+                                rate_status_tv.setText(GA);
+                            else
+                            if (delta>=1)
+                                rate_status_tv.setText(GA);
+
+                                break;
+                        case 'H':
+
+                            if (delta<-1)
+                                rate_status_tv.setText(SB);
+                            else
+                            if (-1<=delta && delta<-0.6)
+                                rate_status_tv.setText(BC);
+                            else
+                            if (-0.6<=delta && delta <-0.3)
+                                rate_status_tv.setText(BC);
+                            else
+                            if (-0.3<=delta && delta<0)
+                                rate_status_tv.setText(LC);
+                            else
+                            if (0<=delta && delta <0.3)
+                                rate_status_tv.setText(LC);
+                            else
+                            if (0.3<=delta && delta <-0.6)
+                                rate_status_tv.setText(BC);
+                            else
+                            if (0.6<=delta && delta <1)
+                                rate_status_tv.setText(BC);
+                            else
+                            if (delta>=1)
+                                rate_status_tv.setText(BC);
+
+                            break;
+
+                        case 'O':
+
+                            if (delta<-1)
+                                rate_status_tv.setText(BC);
+                            else
+                            if (-1<=delta && delta <-0.6)
+                                rate_status_tv.setText(GA);
+                            else
+                            if (-0.6<=delta&& delta<-0.3)
+                                rate_status_tv.setText(SG);
+                            else
+                            if (-0.3<=delta&& delta <-0)
+                                rate_status_tv.setText(LC);
+                            else
+                            if (0<=delta&& delta <0.3)
+                                rate_status_tv.setText(LC);
+                            else
+                            if (0.3<=delta && delta <-0.6)
+                                rate_status_tv.setText(BC);
+                            else
+                            if (0.6<= delta && delta <1)
+                                rate_status_tv.setText(SB);
+                            else
+                            if (delta>=1)
+                                rate_status_tv.setText(SB);
+
+                            break;
+                        case 'b':
+                        if (delta<-1)
+                            rate_status_tv.setText(GA);
+                        else
+                        if (-1<delta && delta <-0.6)
+                            rate_status_tv.setText(GA);
+                        else
+                        if (-0.6<delta && delta<-0.3)
+                            rate_status_tv.setText(LC);
+                        else
+                        if (-0.3<=delta && delta <-0)
+                            rate_status_tv.setText(LC);
+                        else
+                        if (0<=delta && delta <0.3)
+                            rate_status_tv.setText(BC);
+                        else
+                        if (0.3<=delta && delta<-0.6)
+                            rate_status_tv.setText(SB);
+                        else
+                        if (0.6<=delta && delta <1)
+                            rate_status_tv.setText(SB);
+                        else
+                        if (delta>=1)
+                            rate_status_tv.setText(SB);
+                            break;
+
+
+                    }
+
                 }
             }
         });
@@ -106,7 +235,7 @@ public class list_status extends AppCompatActivity {
         sAdapter.setS(saver.User.getS() != null ? saver.User.getS() : new ArrayList<>());
         if (saver.User.getName() != null) {
             tv_hi.setText("Hi, " + saver.User.getName());
-            rate_status_tv.setText(saver.User.getBmi() + "");
+           // rate_status_tv.setText(saver.User.getBmi() + "");
         }
     }
 

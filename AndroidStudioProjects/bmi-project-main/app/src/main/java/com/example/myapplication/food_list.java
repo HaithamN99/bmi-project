@@ -29,7 +29,6 @@ public class food_list extends AppCompatActivity implements foodListAdapter.Sele
         foodAdapter = new foodListAdapter(this, this);
         foodAdapter.setF(saver.User.getF() != null ? saver.User.getF() : new ArrayList<>());
         recyclv.setLayoutManager(new LinearLayoutManager(this));
-
         recyclv.setAdapter(foodAdapter);
 
     }

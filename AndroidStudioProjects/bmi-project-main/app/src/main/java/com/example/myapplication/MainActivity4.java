@@ -28,9 +28,40 @@ import java.util.Calendar;
 public class MainActivity4 extends AppCompatActivity {
 
 
-    public double bmi_calc(int kg, int cm, int age) {
+    public static double bmi_calc(int kg, double cm, double age) {
 
-        return (kg / Math.pow((cm / 100), 2)) * age;
+        if (age>=2 && age<=10)
+            return (kg / Math.pow((cm / 100), 2)) * 0.7;
+
+        else
+        if (age>10 && age<=20)
+            return (kg / Math.pow((cm / 100), 2)) * 0.9;
+
+        else
+        if (age>=20)
+            return (kg / Math.pow((cm / 100), 2)) * 1;
+
+
+      return   (kg / Math.pow((cm / 100), 2)) * 1;
+    }
+    public static char userState(double b){
+
+        if (b<18.5){
+            return 'U';
+        }
+        else
+        if (18.5<=b  &&  b<25){
+            return 'H';
+        }
+        else
+        if (25<=b  &&  b<30){
+            return 'O';
+        }
+        else
+        if (b>30)
+            return 'b';
+
+        return 'b';
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
