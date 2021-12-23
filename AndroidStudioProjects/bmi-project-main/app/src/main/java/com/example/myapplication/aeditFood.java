@@ -56,7 +56,7 @@ public class aeditFood extends Activity {
 
         saver.FOODINFO.setFoodName(name.getText().toString());
         saver.FOODINFO.setFoodCatagory(edit_catagory_sp.getSelectedItem().toString());
-        saver.FOODINFO.setCal(Integer.parseInt(calory.getText().toString()));
+        saver.FOODINFO.setCal(calory.getText().toString());
         //image
         saver.FOODINFO.setImg(uploadImage());
 

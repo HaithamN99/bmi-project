@@ -67,7 +67,7 @@ public class addFood extends AppCompatActivity {
         food_img = (ImageView) findViewById(R.id.add_food_img);
         uploadImg = findViewById(R.id.addfood_upload);
         foodName = food_name.getText().toString();
-        int a = Integer.parseInt(Food_cal.getText().toString());
+       // int a = Integer.parseInt(Food_cal.getText().toString());
 
         uploadImg.setOnClickListener(v -> {
             getPermission();
@@ -79,7 +79,7 @@ public class addFood extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DocumentReference food_ref = firestore.collection("user").document(saver.User.getId());
-                foodInfo f = new foodInfo(food_name.getText().toString(), catagoryItem, a, "img");
+                foodInfo f = new foodInfo(food_name.getText().toString(), catagoryItem, Food_cal.getText().toString(), "img");
                 saver.User.addFoodInfo(f);
                 food_ref.set(saver.User).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {

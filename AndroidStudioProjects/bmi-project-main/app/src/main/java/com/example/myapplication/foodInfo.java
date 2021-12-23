@@ -5,13 +5,13 @@ public class foodInfo
 
     String foodName;
     String foodCatagory;
-    int cal;
+    String cal;
     String img;
 
     public foodInfo() {
     }
 
-    public foodInfo(String foodName, String foodCatagory, int cal, String img) {
+    public foodInfo(String foodName, String foodCatagory, String cal, String img) {
         this.foodName = foodName;
         this.foodCatagory = foodCatagory;
         this.cal = cal;
@@ -34,11 +34,11 @@ public class foodInfo
         this.foodCatagory = foodCatagory;
     }
 
-    public int getCal() {
+    public String getCal() {
         return cal;
     }
 
-    public void setCal(int cal) {
+    public void setCal(String cal) {
         this.cal = cal;
     }
 
